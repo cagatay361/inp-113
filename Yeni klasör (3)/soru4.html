@@ -1,0 +1,63 @@
+<!DOCTYPE html> 
+<html> 
+<head> 
+    <title>Şifre Güç Göstergesi</title> 
+    <style> 
+        #password { width: 300px; padding: 8px; } 
+        #strengthBar { height: 10px; width: 0%; background: gray; margin-top: 5px; } 
+    </style> 
+</head> 
+<body> 
+    <input type="password" id="password" placeholder="Şifrenizi girin"> 
+    <div id="strengthBar"></div> 
+    <script> 
+        document.getElementById('password').addEventListener('input', function() { 
+            const password = this.value; 
+            let strength = 0; 
+            if (password.length > 0) strength += 20; 
+            if (password.length >= 8) strength += 30; 
+            if (/[A-Z]/.test(password)) strength += 20; 
+            if (/[0-9]/.test(password)) strength += 20; 
+            if (/[^A-Za-z0-9]/.test(password)) strength += 10; 
+ 
+            const bar = document.getElementById('strengthBar'); 
+            bar.style.width = strength + '%'; 
+            bar.style.background = strength < 50 ? 'red' : strength < 80 ? 'orange' : 'green'; 
+        }); 
+    </script> 
+</body> 
+</html> 
+<!DOCTYPE html> 
+<html> 
+<head> 
+    <title>Drag & Drop</title> 
+    <style> 
+        #dropArea { width: 300px; height: 200px; border: 2px dashed #ccc; text-align: center; padding: 
+20px; } 
+        #dropArea.highlight { border-color: blue; } 
+    </style> 
+</head> 
+<body> 
+    <div id="dropArea">Dosyaları buraya sürükleyin</div> 
+    <div id="fileList"></div> 
+    <script> 
+        const dropArea = document.getElementById('dropArea'); 
+        dropArea.addEventListener('dragover', (e) => { 
+            e.preventDefault(); 
+            dropArea.classList.add('highlight'); 
+        }); 
+        dropArea.addEventListener('dragleave', () => { 
+            dropArea.classList.remove('highlight'); 
+        }); 
+        dropArea.addEventListener('drop', (e) => { 
+            e.preventDefault(); 
+            dropArea.classList.remove('highlight'); 
+            const files = e.dataTransfer.files; 
+            if (files.length) { 
+                const fileList = document.getElementById('fileList'); 
+                fileList.innerHTML = `<strong>Yüklenen Dosya:</strong> ${files[0].name}`; 
+            } 
+        }); 
+    </script> 
+</body> 
+</html> 
